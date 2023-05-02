@@ -1,28 +1,34 @@
-import { set } from "mongoose";
 import React, { useState } from "react";
 
 function App() {
-  let [fullN, setFullN] = useState({
+  const [contact, setContact] = useState({
     fName: "",
     lName: "",
+    email: "",
   });
 
-  function fullNHandler(event) {
-    const newvalue = event.target.value;
-    const inputName = event.target.name;
+  function changeHandler(event) {
+    const value = event.target.value;
+    const name = event.target.name;
 
-    setFullN((prevValue) => {
-      console.log(prevValue);
-      if (inputName === "fName") {
-        console.log(prevValue);
+    setContact((prev) => {
+      if (name === "fName") {
         return {
-          fName: newvalue,
-          lName: prevValue.lName,
+          fName: value,
+          lName: prev.lName,
+          email: prev.email,
         };
-      } else if (inputName === "lName") {
+      } else if (name === "lName") {
         return {
-          fName: prevValue.fName,
-          lName: newvalue,
+          fName: prev.fName,
+          lName: value,
+          email: prev.email,
+        };
+      } else if (name === "email") {
+        return {
+          fName: prev.fName,
+          lName: prev.lName,
+          email: value,
         };
       }
     });
@@ -31,21 +37,13 @@ function App() {
   return (
     <div className="container">
       <h1>
-        {fullN.fName} {fullN.lName}
+        Hello {contact.fName} {contact.lName}
       </h1>
+      <p>{contact.email}</p>
       <form>
-        <input
-          name="fName"
-          placeholder="First Name"
-          onChange={fullNHandler}
-          value={fullN.fName}
-        />
-        <input
-          name="lName"
-          placeholder="Last Name"
-          onChange={fullNHandler}
-          value={fullN.lName}
-        />
+        <input name="fName" placeholder="First Name" onChange={changeHandler} />
+        <input name="lName" placeholder="Last Name" onChange={changeHandler} />
+        <input name="email" placeholder="Email" onChange={changeHandler} />
         <button>Submit</button>
       </form>
     </div>
